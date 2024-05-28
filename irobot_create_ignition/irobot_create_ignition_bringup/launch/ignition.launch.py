@@ -33,11 +33,11 @@ def generate_launch_description():
         'irobot_create_ignition_plugins')
     pkg_irobot_create_description = get_package_share_directory(
         'irobot_create_description')
-    pkg_ros_ign_gazebo = get_package_share_directory(
-        'ros_ign_gazebo')
+    pkg_ros_gz_sim = get_package_share_directory(
+        'ros_gz_sim')
 
-    # Set Ignition resource path
-    ign_resource_path = SetEnvironmentVariable(name='IGN_GAZEBO_RESOURCE_PATH',
+    # Set Gazebo resource path
+    gz_resource_path = SetEnvironmentVariable(name='GZ_SIM_RESOURCE_PATH',
                                                value=[os.path.join(
                                                       pkg_irobot_create_ignition_bringup,
                                                       'worlds'), ':' +
@@ -45,20 +45,20 @@ def generate_launch_description():
                                                           pkg_irobot_create_description).
                                                           parent.resolve())])
 
-    ign_gui_plugin_path = SetEnvironmentVariable(name='IGN_GUI_PLUGIN_PATH',
+    gz_gui_plugin_path = SetEnvironmentVariable(name='GZ_GUI_PLUGIN_PATH',
                                                  value=[os.path.join(
                                                         pkg_irobot_create_ignition_plugins,
                                                         'lib')])
 
     # Paths
-    ign_gazebo_launch = PathJoinSubstitution(
-        [pkg_ros_ign_gazebo, 'launch', 'ign_gazebo.launch.py'])
+    gz_sim_launch = PathJoinSubstitution(
+        [pkg_ros_gz_sim, 'launch', 'gz_sim.launch.py'])
 
-    # Ignition gazebo
-    ignition_gazebo = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource([ign_gazebo_launch]),
+    # Gazebo
+    gz_sim = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource([gz_sim_launch]),
         launch_arguments=[
-            ('ign_args', [LaunchConfiguration('world'),
+            ('gz_args', [LaunchConfiguration('world'),
                           '.sdf',
                           ' -v 4',
                           ' --gui-config ',
@@ -72,13 +72,13 @@ def generate_launch_description():
                         name='clock_bridge',
                         output='screen',
                         arguments=[
-                            '/clock' + '@rosgraph_msgs/msg/Clock' + '[ignition.msgs.Clock'
+                            '/clock' + '@rosgraph_msgs/msg/Clock' + '[gz.msgs.Clock'
                         ])
 
     # Create launch description and add actions
     ld = LaunchDescription(ARGUMENTS)
-    ld.add_action(ign_resource_path)
-    ld.add_action(ign_gui_plugin_path)
-    ld.add_action(ignition_gazebo)
+    ld.add_action(gz_resource_path)
+    ld.add_action(gz_gui_plugin_path)
+    ld.add_action(gz_sim)
     ld.add_action(clock_bridge)
     return ld

@@ -96,7 +96,7 @@ def generate_launch_description():
 
         # Spawn Create 3
         Node(
-            package='ros_ign_gazebo',
+            package='ros_gz_sim',
             executable='create',
             arguments=['-name', robot_name,
                        '-x', x,
@@ -109,7 +109,7 @@ def generate_launch_description():
 
         # Spawn dock
         Node(
-            package='ros_ign_gazebo',
+            package='ros_gz_sim',
             executable='create',
             arguments=['-name', dock_name,
                        '-x', x_dock,

@@ -13,6 +13,7 @@
 #include "tf2_ros/transform_listener.h"
 
 #include "geometry_msgs/msg/twist.hpp"
+#include "geometry_msgs/msg/twist_stamped.hpp"
 #include "irobot_create_msgs/msg/kidnap_status.hpp"
 #include "irobot_create_msgs/msg/hazard_detection.hpp"
 #include "irobot_create_msgs/msg/wheel_status.hpp"
@@ -109,7 +110,7 @@ private:
   rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr teleop_subscription_;
   rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr odom_pose_sub_;
   rclcpp::Subscription<irobot_create_msgs::msg::KidnapStatus>::SharedPtr kidnap_sub_;
-  rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr cmd_vel_out_pub_;
+  rclcpp::Publisher<geometry_msgs::msg::TwistStamped>::SharedPtr cmd_vel_out_pub_;
   rclcpp::Publisher<irobot_create_msgs::msg::HazardDetection>::SharedPtr backup_limit_hazard_pub_;
   rclcpp::Publisher<irobot_create_msgs::msg::WheelStatus>::SharedPtr wheel_status_pub_;
   rclcpp::TimerBase::SharedPtr control_timer_ {nullptr};
